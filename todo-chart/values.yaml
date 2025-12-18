@@ -2,24 +2,7 @@
 global:
   namespace: todo
 
-# MySQL配置
-mysql:
-  image: mysql
-  tag: 8.0
-  imagePullPolicy: IfNotPresent
-  rootPassword: "123456"
-  database: todo_db
-  user: jerry
-  password: "000000"
-  replicaCount: 1
-  persistence:
-    enabled: true
-    size: 1Gi
-  service:
-    type: ClusterIP
-    port: 3306
-
-# Backend配置
+# Backend 配置
 backend:
   replicaCount: 2
   image:
@@ -31,8 +14,13 @@ backend:
     port: 5000
   env:
     SECRET_KEY: your_secret_key_here
+    MYSQL_HOST: "35.220.229.85" # Cloud SQL 实例的公共 IP 地址
+    MYSQL_PORT: "3306"          # MySQL 端口
+    MYSQL_DATABASE: "todo_db"   # 数据库名称
+    MYSQL_USER: "jerry"         # 数据库用户名
+    MYSQL_PASSWORD: "000000"    # 数据库密码
 
-# Frontend配置
+# Frontend 配置
 frontend:
   replicaCount: 2
   image:
@@ -40,9 +28,5 @@ frontend:
     tag: latest
     pullPolicy: Always
   service:
-    type: NodePort
+    type: LoadBalancer
     port: 80
-    nodePort: 30080
-    # 如果是公网，切换到以下配置
-    # type: LoadBalancer
-    # port: 80

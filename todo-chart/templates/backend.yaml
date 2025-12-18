@@ -8,6 +8,11 @@ metadata:
 type: Opaque
 stringData:
   SECRET_KEY: {{ .Values.backend.env.SECRET_KEY | quote }}
+  MYSQL_HOST: {{ .Values.backend.env.MYSQL_HOST | quote }}
+  MYSQL_PORT: {{ .Values.backend.env.MYSQL_PORT | quote }}
+  MYSQL_DATABASE: {{ .Values.backend.env.MYSQL_DATABASE | quote }}
+  MYSQL_USER: {{ .Values.backend.env.MYSQL_USER | quote }}
+  MYSQL_PASSWORD: {{ .Values.backend.env.MYSQL_PASSWORD | quote }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -34,10 +39,6 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "todo-chart.backend.fullname" . }}-secret
-            - configMapRef:
-                name: {{ include "todo-chart.mysql.fullname" . }}-config
-            - secretRef:
-                name: {{ include "todo-chart.mysql.fullname" . }}-secret
           ports:
             - containerPort: {{ .Values.backend.service.port }}
           readinessProbe:
@@ -56,15 +57,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
-      initContainers:
-        - name: wait-for-mysql
-          image: busybox:1.31
-          command:
-            [
-              "sh",
-              "-c",
-              "until nslookup {{ include "todo-chart.mysql.fullname" . }}.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mysql; sleep 2; done;"
-            ]
 ---
 apiVersion: v1
 kind: Service

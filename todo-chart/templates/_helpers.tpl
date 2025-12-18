@@ -22,11 +22,6 @@
 {{- end }}
 {{- end }}
 
-{{/* 定义 MySQL 组件的完整名称 */}}
-{{- define "todo-chart.mysql.fullname" }}
-{{- printf "%s-mysql" (include "todo-chart.fullname" .) | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
 {{/* 定义 Backend 组件的完整名称 */}}
 {{- define "todo-chart.backend.fullname" }}
 {{- printf "%s-backend" (include "todo-chart.fullname" .) | trunc 63 | trimSuffix "-" }}
@@ -46,20 +41,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Values.commonLabels }}
 {{- toYaml .Values.commonLabels | nindent 2 }}
 {{- end }}
-{{- end }}
-
-{{/* 定义 MySQL 组件的标签集合，继承基础标签并添加组件特定标签 */}}
-{{- define "todo-chart.mysql.labels" }}
-{{- include "todo-chart.labels" . }}
-app.kubernetes.io/name: {{ include "todo-chart.name" . }}-mysql
-app.kubernetes.io/component: mysql
-{{- end }}
-
-{{/* 定义 MySQL 组件的选择器标签，用于 Pod 选择 */}}
-{{- define "todo-chart.mysql.selectorLabels" }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/name: {{ include "todo-chart.name" . }}-mysql
-app.kubernetes.io/component: mysql
 {{- end }}
 
 {{/* 定义 Backend 组件的标签集合，继承基础标签并添加组件特定标签 */}}
