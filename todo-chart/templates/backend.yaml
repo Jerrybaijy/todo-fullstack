@@ -8,7 +8,7 @@ metadata:
 type: Opaque
 stringData:
   SECRET_KEY: {{ .Values.backend.env.SECRET_KEY | quote }}
-  MYSQL_HOST: {{ .Values.backend.env.MYSQL_HOST | quote }}
+  DB_HOST: {{ .Values.backend.env.DB_HOST | quote }}
   MYSQL_PORT: {{ .Values.backend.env.MYSQL_PORT | quote }}
   MYSQL_DATABASE: {{ .Values.backend.env.MYSQL_DATABASE | quote }}
   MYSQL_USER: {{ .Values.backend.env.MYSQL_USER | quote }}

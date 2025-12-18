@@ -14,7 +14,7 @@ backend:
     port: 5000
   env:
     SECRET_KEY: your_secret_key_here
-    MYSQL_HOST: "35.220.229.85" # Cloud SQL 实例的公共 IP 地址
+    DB_HOST: "35.220.229.85"    # Cloud SQL 实例的公共 IP 地址
     MYSQL_PORT: "3306"          # MySQL 端口
     MYSQL_DATABASE: "todo_db"   # 数据库名称
     MYSQL_USER: "jerry"         # 数据库用户名
