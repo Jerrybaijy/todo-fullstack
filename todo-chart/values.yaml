@@ -1,0 +1,48 @@
+# 全局配置
+global:
+  namespace: todo
+
+# MySQL配置
+mysql:
+  image: mysql
+  tag: 8.0
+  imagePullPolicy: IfNotPresent
+  rootPassword: "123456"
+  database: todo_db
+  user: jerry
+  password: "000000"
+  replicaCount: 2
+  persistence:
+    enabled: true
+    size: 1Gi
+  service:
+    type: ClusterIP
+    port: 3306
+
+# Backend配置
+backend:
+  replicaCount: 2
+  image:
+    repository: jerrybaijy/todo-fullstack-backend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 5000
+  env:
+    SECRET_KEY: your_secret_key_here
+
+# Frontend配置
+frontend:
+  replicaCount: 2
+  image:
+    repository: jerrybaijy/todo-fullstack-frontend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: NodePort
+    port: 80
+    nodePort: 30080
+    # 如果是公网，切换到以下配置
+    # type: LoadBalancer
+    # port: 80
