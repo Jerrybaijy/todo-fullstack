@@ -18,28 +18,36 @@ variables:
   # 后端和前端名称
   BACKEND_NAME: backend
   FRONTEND_NAME: frontend
-  
+
   # 后端和前端目录
   BACKEND_DIR: backend
   FRONTEND_DIR: frontend
 
+  # Helm Chart 名称
+  CHART_NAME: todo-chart
+  # Helm Chart 目录
+  CHART_DIR: todo-chart
+
+  # OCI 仓库地址
+  OCI_REGISTRY: oci://registry.gitlab.com/jerrybai/$PROJECT_NAME
+
 # 定义阶段
 stages:
   - build
+  - chart-publish
 
 # 使用 Docker-in-Docker 服务，允许在容器里运行 docker 命令
 services:
   - docker:$DOCKER_VERSION-dind
 
-# 登录 Docker Hub
-before_script:
-  # 使用 stdin 输入密码，更加安全
-  - echo "$DOCKER_HUB_TOKEN" | docker login -u "$DOCKER_HUB_USER" --password-stdin
-
-# 构建后端镜像
+# 构建并推送后端镜像
 build_backend:
   stage: build
   image: docker:$DOCKER_VERSION
+  # 登录 Docker Hub
+  before_script:
+    # 使用 stdin 输入密码，更加安全
+    - echo "$DOCKER_HUB_TOKEN" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     # 进入后端目录
     - cd $BACKEND_DIR
@@ -55,15 +63,71 @@ build_backend:
     - changes:
         - $BACKEND_DIR/**/*
 
-# 构建前端镜像
+# 构建并推送前端镜像
 build_frontend:
   stage: build
   image: docker:$DOCKER_VERSION
+  # 登录 Docker Hub
+  before_script:
+    # 使用 stdin 输入密码，更加安全
+    - echo "$DOCKER_HUB_TOKEN" | docker login -u "$DOCKER_HUB_USER" --password-stdin
   script:
     - cd $FRONTEND_DIR
     - docker build -t $IMAGE_PREFIX/$PROJECT_NAME-$FRONTEND_NAME:$CI_COMMIT_SHORT_SHA -t $IMAGE_PREFIX/$PROJECT_NAME-$FRONTEND_NAME:latest .
     - docker push $IMAGE_PREFIX/$PROJECT_NAME-$FRONTEND_NAME:$CI_COMMIT_SHORT_SHA
     - docker push $IMAGE_PREFIX/$PROJECT_NAME-$FRONTEND_NAME:latest
   rules:
+    - changes:
+        - $FRONTEND_DIR/**/*
+
+# 构建并推送 Helm Chart
+publish_chart:
+  stage: chart-publish
+  image:
+    name: alpine/helm:3.12.3
+    # 设置正确的 entrypoint 以便执行 shell 命令
+    entrypoint: ["/bin/sh", "-c"]
+  needs:
+    # 如果 build_backend 的结果为 Passed 或 Skipped，都可以执行 publish_chart
+    # 否则 publish_chart 的结果直接为 Skipped
+    - job: build_backend
+      optional: true
+    - job: build_frontend
+      optional: true
+  script:
+    # 进入 Helm Chart 目录
+    - cd $CHART_DIR
+    
+    # 配置 Helm 使用 GitLab Container Registry
+    - helm registry login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+    
+    # 检查 Chart 语法
+    - helm lint .
+    
+    # 安装 yq 工具用于解析 Chart.yaml
+    - apk add --no-cache yq
+    
+    # 从 Chart.yaml 中读取基础版本号
+    - CHART_VERSION=$(yq e '.version' Chart.yaml)
+    
+    # 生成最终版本号（基础版本号 + SHA）
+    - SHA_VERSION="${CHART_VERSION}-${CI_COMMIT_SHORT_SHA}"
+    # latest 版本号（最大版本号 + latest）
+    - LATEST_VERSION="99.99.99-latest"
+    
+    # 打包 Chart
+    - helm package . --version "${SHA_VERSION}"
+    - helm package . --version "${LATEST_VERSION}"
+    
+    # 推送 Chart 到 GitLab Container Registry
+    - helm push ${CHART_NAME}-${SHA_VERSION}.tgz $OCI_REGISTRY
+    - helm push ${CHART_NAME}-${LATEST_VERSION}.tgz $OCI_REGISTRY
+
+  rules:
+    # 以下任何一个目录更新时，都运行此 Job（前提是满足 needs 条件）
+    - changes:
+        - $CHART_DIR/**/*
+    - changes:
+        - $BACKEND_DIR/**/*
     - changes:
         - $FRONTEND_DIR/**/*
