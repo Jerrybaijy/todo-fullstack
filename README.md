@@ -45,7 +45,6 @@ todo-fullstack/
 │
 ├── argo-cd/                   # Argo CD 部署配置
 │   ├── chart-app.yaml         # Helm Chart Argo CD 应用配置
-│   ├── chart-app-gcloud.yaml  # Helm Chart GCP Argo CD 应用配置
 │   └── k8s-app.yaml           # Kubernetes Argo CD 应用配置
 │
 ├── backend/               # 后端代码目录
@@ -78,6 +77,10 @@ todo-fullstack/
 │   ├── frontend.yaml      # 前端部署配置
 │   ├── mysql.yaml         # MySQL 部署配置
 │   └── namespace.yaml     # 命名空间配置
+│
+├── terraform/             # GCP 的 Terraform 部署文件
+│   ├── main.tf            # Terraform 主文件
+│   └── variables.tf       # Terraform 变量
 │
 ├── todo-chart/                  # Helm Chart 目录
 │   ├── templates/               # Kubernetes 资源模板目录
