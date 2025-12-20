@@ -22,6 +22,11 @@
 {{- end }}
 {{- end }}
 
+{{/* 生成 Cloud SQL 实例连接名称 */}}
+{{- define "todo-chart.sqlInstanceConnectionName" -}}
+{{- printf "%s:%s:%s" .Values.gcp.projectId .Values.gcp.region .Values.gcp.sqlInstanceName -}}
+{{- end -}}
+
 {{/* 定义 Backend 组件的完整名称 */}}
 {{- define "todo-chart.backend.fullname" }}
 {{- printf "%s-backend" (include "todo-chart.fullname" .) | trunc 63 | trimSuffix "-" }}

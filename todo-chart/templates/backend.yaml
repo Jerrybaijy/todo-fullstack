@@ -64,7 +64,7 @@ spec:
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
           args:
             - "--port=3306"
-            - "project-60addf72-be9c-4c26-8db:asia-east2:todo-db-instance"
+            - {{ include "todo-chart.sqlInstanceConnectionName" . | quote }}
           securityContext:
             runAsNonRoot: true
 ---
