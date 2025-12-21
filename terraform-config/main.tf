@@ -8,7 +8,7 @@ provider "google" {
 
 resource "google_container_cluster" "todo_cluster" {
   name     = "todo-cluster"
-  location = var.zone # 使用 Region 实现高可用，或者改为 asia-east2-a 指定 Zone
+  location = var.zone
 
   # 关闭防止误删
   deletion_protection = false
