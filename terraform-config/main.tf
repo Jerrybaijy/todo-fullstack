@@ -10,6 +10,9 @@ resource "google_container_cluster" "todo_cluster" {
   name     = "todo-cluster"
   location = var.zone # 使用 Region 实现高可用，或者改为 asia-east2-a 指定 Zone
 
+  # 关闭防止误删
+  deletion_protection = false
+
   # 我们在这里删除默认节点池，并创建一个独立的节点池
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -72,7 +75,7 @@ resource "google_sql_database_instance" "todo_db_instance" {
     }
   }
 
-  # 防止误删（生产环境建议开启）
+  # 关闭防止误删（生产环境建议开启）
   deletion_protection = false
 }
 
