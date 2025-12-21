@@ -33,7 +33,11 @@ logs/
 # Kubernetes
 *.kubeconfig
 
-# 忽略 Terraform 运行时的目录
+# Terraform
 .terraform/
 *.tfstate
+.terraform.tfstate.lock.info
+*.tfplan
+*.tfvars
+*.tfvars.json
 *.tfstate.backup
