@@ -1,13 +1,12 @@
 # 全局配置
 global:
   namespace: todo
-  serviceAccountName: "todo-k8s-sa"
 
 gcp:
   projectId: "project-60addf72-be9c-4c26-8db"
   region: "asia-east2"
   sqlInstanceName: "todo-db-instance"
-  sqlProxySaEmail: "sql-proxy-sa@project-60addf72-be9c-4c26-8db.iam.gserviceaccount.com"
+  sqlProxySaEmail: "todo-sa-id@project-60addf72-be9c-4c26-8db.iam.gserviceaccount.com"
 
 # Backend 配置
 backend:

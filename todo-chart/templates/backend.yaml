@@ -33,8 +33,7 @@ spec:
         {{- include "todo-chart.backend.labels" . | nindent 8 }}
     spec:
       # 1. 关键：指定 Service Account 以支持 Workload Identity
-      # todo-k8s-sa 必须与 GCP 的 ServiceAccount 资源中一致
-      serviceAccountName: todo-k8s-sa
+      serviceAccountName: todo-ksa
       containers:
         - name: backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
