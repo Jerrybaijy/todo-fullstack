@@ -46,10 +46,3 @@ variable "mysql_jerry_password" {
   description = "MySQL jerry user password"
   sensitive   = true
 }
-
-# --- Argo CD ---
-variable "my_external_ip" {
-  type        = string
-  description = "My external IP access to Argo CD"
-  sensitive   = true
-}

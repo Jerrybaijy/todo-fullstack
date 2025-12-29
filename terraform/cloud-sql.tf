@@ -8,7 +8,7 @@ resource "google_sql_database_instance" "mysql_instance" {
     tier            = "db-f1-micro" # 测试环境使用的最小规格
     disk_type       = "PD_SSD"
     disk_size       = 10   # 初始 10GB
-    disk_autoresize = true # 硬盘满了自动扩容
+    disk_autoresize = true # 自动扩容
 
     # 开启公网 IP，但会通过 IAM 权限锁定访问，仅允许通过授权代理访问
     ip_configuration {
@@ -45,6 +45,16 @@ resource "google_sql_user" "jerry_user" {
 }
 
 output "cloud_sql_connection_name" {
-  description = "Cloud SQL 实例连接名称"
+  description = "Cloud SQL instance connection name"
   value       = google_sql_database_instance.mysql_instance.connection_name
+}
+
+output "sql_instance_name" {
+  description = "Cloud SQL 实例的名称"
+  value       = google_sql_database_instance.mysql_instance.name
+}
+
+output "database_name" {
+  description = "Cloud SQL database name"
+  value       = google_sql_database.my_db.name
 }

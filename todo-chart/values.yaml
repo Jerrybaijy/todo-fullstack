@@ -2,7 +2,7 @@
 global:
   namespace: todo
 
-# 用于模板函数中生成 Cloud SQL 实例连接名称
+# 1. 关键：用于模板函数中生成 Cloud SQL 实例连接名称
 gcp:
   projectId: "project-60addf72-be9c-4c26-8db"
   region: "asia-east2"
@@ -10,6 +10,8 @@ gcp:
 
 # Backend 配置
 backend:
+  # 2. 关键：添加 ksa 名称
+  ksaName: todo-ksa
   replicaCount: 2
   image:
     repository: jerrybaijy/todo-fullstack-backend
@@ -20,6 +22,7 @@ backend:
     port: 5000
   env:
     SECRET_KEY: your_secret_key_here
+    # 3. 关键：添加 Cloud SQL 的环境变量
     # 由于 Cloud SQL 实例已配置 Cloud SQL Auth Proxy，
     # 因此数据库主机地址指向本地回环地址和默认端
     DB_HOST: "127.0.0.1"        # 本地回环地址
@@ -36,5 +39,6 @@ frontend:
     tag: latest
     pullPolicy: Always
   service:
+    # 4. 关键：前端服务类型改为 LoadBalancer 以支持公网访问
     type: LoadBalancer
     port: 80

@@ -38,3 +38,13 @@ resource "google_project_iam_member" "mysql_client" {
   role    = "roles/cloudsql.client"
   member  = "serviceAccount:${google_service_account.workload_identity.email}"
 }
+
+output "app_namespace" {
+  description = "Kubernetes Namespace Name"
+  value       = kubernetes_namespace_v1.app_ns.metadata[0].name
+}
+
+output "ksa_name" {
+  description = "Kubernetes Service Account Name"
+  value       = kubernetes_service_account_v1.my_ksa.metadata[0].name
+}
