@@ -19,7 +19,7 @@ resource "google_container_cluster" "my_cluster" {
   location                 = var.region
   remove_default_node_pool = true
   initial_node_count       = 1
-  depends_on = [google_project_service.project_services]
+  depends_on               = [google_project_service.project_services]
 
   # 启用 Workload Identity
   workload_identity_config {
@@ -48,7 +48,7 @@ resource "google_container_node_pool" "my_node_pool" {
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
-    
+
     # 使用 Workload Identity 暴露元数据
     workload_metadata_config {
       mode = "GKE_METADATA"

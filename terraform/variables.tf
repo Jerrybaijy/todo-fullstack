@@ -6,17 +6,13 @@ variable "prefix" {
 }
 
 locals {
-  gke_name        = "${var.prefix}-cluster"
-  node_pool_name  = "${var.prefix}-node-pool"
-  app_ns          = "${var.prefix}-ns"
-  sa_id           = "${var.prefix}-sa-id"
-  ksa_name        = "${var.prefix}-ksa"
-  db_instance     = "${var.prefix}-db-instance"
-  db_name         = "${var.prefix}_db"
-  project_name    = "${var.prefix}-fullstack"
-  app_name        = "${var.prefix}-app"
-  chart_name      = "${var.prefix}-chart"
-  chart_repo_pull = "oci://registry.gitlab.com/jerrybai/${local.project_name}/${local.chart_name}"
+  gke_name       = "${var.prefix}-cluster"
+  node_pool_name = "${var.prefix}-node-pool"
+  app_ns         = "${var.prefix}"
+  sa_id          = "${var.prefix}-sa-id"
+  ksa_name       = "${var.prefix}-ksa"
+  db_instance    = "${var.prefix}-db-instance"
+  db_name        = "${var.prefix}_db"
 }
 
 # --- GCP ---
