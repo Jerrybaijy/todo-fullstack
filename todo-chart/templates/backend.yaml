@@ -32,8 +32,6 @@ spec:
       labels:
         {{- include "todo-chart.backend.labels" . | nindent 8 }}
     spec:
-      # 1. 关键：指定 Service Account 以支持 Workload Identity
-      # serviceAccountName: todo-ksa
       containers:
         - name: backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
@@ -59,7 +57,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
-        # 2. 关键：注入 Sidecar 容器：添加 cloud-sql-proxy 容器。
+        # 关键：注入 Sidecar 容器：添加 cloud-sql-proxy 容器。
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
           args:
