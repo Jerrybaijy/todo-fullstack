@@ -29,7 +29,7 @@ variables:
   CHART_DIR: helm-chart
 
   # OCI 仓库地址
-  OCI_REGISTRY: registry.gitlab.com/jerrybai/$PROJECT_NAME
+  OCI_REGISTRY: registry.gitlab.com/jerrybai/${PROJECT_NAME}
 
 # 定义阶段
 stages:
