@@ -26,10 +26,10 @@ variables:
   # Helm Chart 名称
   CHART_NAME: todo-chart
   # Helm Chart 目录
-  CHART_DIR: todo-chart
+  CHART_DIR: helm-chart
 
   # OCI 仓库地址
-  OCI_REGISTRY: oci://registry.gitlab.com/jerrybai/$PROJECT_NAME
+  OCI_REGISTRY: registry.gitlab.com/jerrybai/$PROJECT_NAME
 
 # 定义阶段
 stages:
@@ -120,8 +120,8 @@ publish_chart:
     - helm package . --version "${LATEST_VERSION}"
     
     # 推送 Chart 到 GitLab Container Registry
-    - helm push ${CHART_NAME}-${SHA_VERSION}.tgz $OCI_REGISTRY
-    - helm push ${CHART_NAME}-${LATEST_VERSION}.tgz $OCI_REGISTRY
+    - helm push ${CHART_NAME}-${SHA_VERSION}.tgz oci://${OCI_REGISTRY}
+    - helm push ${CHART_NAME}-${LATEST_VERSION}.tgz oci://${OCI_REGISTRY}
 
   rules:
     # 以下任何一个目录更新时，都运行此 Job（前提是满足 needs 条件）
