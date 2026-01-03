@@ -15,7 +15,7 @@ spec:
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: todo
+    namespace: todo-ns
   syncPolicy:
     automated:
       selfHeal: true

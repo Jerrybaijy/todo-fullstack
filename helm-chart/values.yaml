@@ -1,6 +1,6 @@
 # 全局配置
 global:
-  namespace: todo
+  namespace: todo-ns
 
 # 1. 关键：用于模板函数中生成 Cloud SQL 实例连接名称
 gcp:

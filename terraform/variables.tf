@@ -8,7 +8,7 @@ variable "prefix" {
 locals {
   gke_name       = "${var.prefix}-cluster"
   node_pool_name = "${var.prefix}-node-pool"
-  app_ns         = "${var.prefix}"
+  app_ns         = "${var.prefix}-ns"
   sa_id          = "${var.prefix}-sa-id"
   ksa_name       = "${var.prefix}-ksa"
   db_instance    = "${var.prefix}-db-instance"

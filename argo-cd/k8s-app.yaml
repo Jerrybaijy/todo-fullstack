@@ -11,7 +11,7 @@ spec:
     path: k8s
   destination:
     server: https://kubernetes.default.svc
-    namespace: todo
+    namespace: todo-ns
   syncPolicy:
     automated:
       selfHeal: true
