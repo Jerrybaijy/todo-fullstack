@@ -29,7 +29,7 @@ resource "kubernetes_namespace_v1" "app_ns" {
   }
   lifecycle {
     ignore_changes = [
-      metadata[0].labels # 忽略标签变化
+      metadata[0].labels # 忽略标签变化，防止 Argo CD 标签变更引起冲突
     ]
   }
 }

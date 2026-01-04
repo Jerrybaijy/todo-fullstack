@@ -82,13 +82,15 @@ todo-fullstack/
 ├── terraform/              # GCP 的 Terraform 部署文件
 │   ├── .terraform.lock.hcl # 依赖锁定文件
 │   ├── api.tf              # GCP API
+│   ├── argo-cd.tf          # Argo CD 配置文件
 │   ├── cloud-sql.tf        # Cloud SQL 配置文件
 │   ├── gke.tf              # GKE 配置文件
 │   ├── iam.tf              # GCP 权限配置文件
 │   ├── terraform.tf        # Provider 版本配置文件
+│   ├── todo-app.tf         # Argo CD 的 CR 资源配置文件
 │   └── variables.tf        # Terraform 变量
 │
-├── todo-chart/             # Helm Chart 目录
+├── helm-chart/             # Helm Chart 目录
 │   ├── templates/          # Kubernetes 资源模板目录
 │   │   ├── namespace.yaml  # 命名空间配置模板
 │   │   ├── _helpers.tpl    # 模板函数
