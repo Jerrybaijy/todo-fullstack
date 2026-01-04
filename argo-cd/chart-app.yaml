@@ -6,11 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    # <oci-registry>/<chart-name>
-    repoURL: oci://registry.gitlab.com/jerrybai/todo-fullstack/todo-chart
-    # Chart 版本号
+    repoURL: registry.gitlab.com/jerrybai/todo-fullstack
     targetRevision: "99.99.99-latest"
-    # Chart 名称
     chart: todo-chart
 
   destination:
