@@ -56,7 +56,6 @@ resource "google_container_node_pool" "my_node_pool" {
   }
 }
 
-# 输出 GKE 集群名称
 output "gke_name" {
   description = "GKE name"
   value       = google_container_cluster.my_cluster.name

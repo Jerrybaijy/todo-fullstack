@@ -13,6 +13,10 @@ locals {
   ksa_name       = "${var.prefix}-ksa"
   db_instance    = "${var.prefix}-db-instance"
   db_name        = "${var.prefix}_db"
+  project_name   = "${var.prefix}-fullstack"
+  app_name       = "${var.prefix}-app"
+  chart_name     = "${var.prefix}-chart"
+  chart_repo     = "registry.gitlab.com/jerrybai/${local.project_name}"
 }
 
 # --- GCP ---
@@ -44,5 +48,12 @@ variable "mysql_root_password" {
 variable "mysql_jerry_password" {
   type        = string
   description = "MySQL jerry user password"
+  sensitive   = true
+}
+
+# --- Argo CD ---
+variable "my_external_ip" {
+  type        = string
+  description = "My external IP access to Argo CD"
   sensitive   = true
 }
