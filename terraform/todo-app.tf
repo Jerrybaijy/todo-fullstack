@@ -19,7 +19,7 @@ resource "kubernetes_manifest" "my_app" {
     "spec" = {
       "project" = "default"
       "source" = {
-        "repoURL"        = local.chart_repo
+        "repoURL"        = local.chart_repo_url
         "targetRevision" = "99.99.99-latest"
         "chart"          = local.chart_name
       }
