@@ -4,7 +4,7 @@ variable "prefix" {
 }
 
 locals {
-  project_name   = "${var.prefix}-gcp"
+  project_name   = "${var.prefix}-fullstack"
   app_name       = "${var.prefix}-app"
   chart_name     = "${var.prefix}-chart"
   chart_repo_url = "registry.gitlab.com/jerrybai/${local.project_name}"
