@@ -1,18 +1,3 @@
-# 添加 Google Provider
-provider "google" {
-  project = var.project_id
-  region  = var.region
-  zone    = var.zone
-}
-
-# 添加 Kubernetes Provider
-data "google_client_config" "default" {}
-provider "kubernetes" {
-  host                   = "https://${google_container_cluster.my_cluster.endpoint}"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
-}
-
 # 创建 GKE 集群
 resource "google_container_cluster" "my_cluster" {
   name                     = local.gke_name
@@ -54,9 +39,4 @@ resource "google_container_node_pool" "my_node_pool" {
       mode = "GKE_METADATA"
     }
   }
-}
-
-output "gke_name" {
-  description = "GKE name"
-  value       = google_container_cluster.my_cluster.name
 }

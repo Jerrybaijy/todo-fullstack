@@ -1,9 +1,3 @@
-# 增加一个睡眠资源
-resource "time_sleep" "wait_for_argocd" {
-  depends_on = [helm_release.argocd]
-  create_duration = "30s"
-}
-
 # 使用 kubernetes_manifest 部署 Argo CD Application
 resource "kubernetes_manifest" "my_app" {
   manifest = {
@@ -11,7 +5,7 @@ resource "kubernetes_manifest" "my_app" {
     "kind"       = "Application"
     "metadata" = {
       "name"      = local.app_name
-      "namespace" = kubernetes_namespace_v1.argocd_ns.metadata[0].name
+      "namespace" = var.argocd_ns
       "finalizers" = [
         "resources-finalizer.argocd.argoproj.io"
       ]
@@ -25,7 +19,7 @@ resource "kubernetes_manifest" "my_app" {
       }
       "destination" = {
         "server"    = "https://kubernetes.default.svc"
-        "namespace" = kubernetes_namespace_v1.app_ns.metadata[0].name
+        "namespace" = var.app_ns
       }
       "syncPolicy" = {
         "automated" = {
@@ -46,9 +40,4 @@ resource "kubernetes_manifest" "my_app" {
       }
     }
   }
-  depends_on = [
-    helm_release.argocd,
-    time_sleep.wait_for_argocd,
-    google_sql_user.root_user
-  ]
 }

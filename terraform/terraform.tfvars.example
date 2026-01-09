@@ -1,0 +1,6 @@
+# Cloud SQL password
+mysql_root_password = ""
+mysql_jerry_password = ""
+
+# Argo CD management IP
+my_external_ip = ""

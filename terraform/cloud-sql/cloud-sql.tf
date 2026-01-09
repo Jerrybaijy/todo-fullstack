@@ -50,7 +50,7 @@ output "cloud_sql_connection_name" {
 }
 
 output "sql_instance_name" {
-  description = "Cloud SQL instance name"
+  description = "Cloud SQL 实例的名称"
   value       = google_sql_database_instance.mysql_instance.name
 }
 

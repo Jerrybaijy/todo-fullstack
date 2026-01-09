@@ -4,7 +4,6 @@ locals {
     "container.googleapis.com",      # Kubernetes Engine API
     "iam.googleapis.com",            # IAM API
     "iamcredentials.googleapis.com", # Workload Identity API
-    "sqladmin.googleapis.com"        # Cloud SQL API
   ]
 }
 

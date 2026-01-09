@@ -1,2 +1,2 @@
 此文件为了使此目录发生变化，触发 GitLab CI
-test2
+test1
