@@ -116,6 +116,7 @@ todo-fullstack/
 │   │   └── variables.tf    # todo-app 模块变量文件
 │   │
 │   ├── main.tf             # 根模块主文件
+│   ├── outputs.tf          # 根模块输出文件
 │   ├── providers.tf        # 根模块 Provider 文件
 │   ├── terraform.tfvars    # 根模块敏感变量赋值文件
 │   ├── terraform.tfvars.example # 根模块敏感变量赋值文件模板
